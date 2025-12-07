@@ -1,0 +1,4 @@
+Official link to the SDK from Cerebras: https://www.dropbox.com/scl/fi/2lgy7q7rwg366wf9m9r1l/Cerebras-SDK-1.4.0-202505230211-4-d9070058.tar.gz?rlkey=fk8egs6dop9n3prrgnmz5ji6u&st=fx1rehni&dl=0
+
+IMPORTANT: Remember, by using this link to download the SDK, you agree to the End User License Agreement provided by Cerebras, which can be found in the SDK directory. This is an official link, and not my copy of the SDK. This has been given by Dr. Leighton Wilson, Senior MTS @ Cerebras, upon request especially for this tutorial. The official way to access it is using the SDK Request form at the Cerebras Website.
+It is very important that you do not share the SDK without permission from him directly.   
