@@ -1,0 +1,268 @@
+param memcpy_params = comptime_struct;
+
+// matrix dimensions
+param M: i16;
+param N: i16;
+
+// color
+param send_east_color: color;
+param recv_west_color: color;
+
+param send_west_color: color;
+param recv_east_color: color;
+
+param send_north_color: color;
+param recv_south_color: color;
+
+param send_south_color: color;
+param recv_north_color: color;
+
+const ut0 = @get_ut_id(0);
+const ut1 = @get_ut_id(1);
+const ut2 = @get_ut_id(2);
+const ut3 = @get_ut_id(3);
+const ut4 = @get_ut_id(4);
+const ut5 = @get_ut_id(5);
+const ut6 = @get_ut_id(6);
+const ut7 = @get_ut_id(7);
+
+
+// Queue IDs
+const send_east_color_oq = @get_output_queue(2);
+const recv_west_color_iq = @get_input_queue(2);
+
+const send_west_color_oq = @get_output_queue(3);
+const recv_east_color_iq = @get_input_queue(3);
+
+const send_north_color_oq = @get_output_queue(4);
+const recv_south_color_iq = @get_input_queue(4);
+
+const send_south_color_oq = @get_output_queue(5);
+const recv_north_color_iq = @get_input_queue(5);
+
+
+
+
+// Task ID used by a local task to unblock cmd stream
+const exit_task_id: local_task_id = @get_local_task_id(9);
+
+const east_halo_exchange_ti: local_task_id = @get_local_task_id(10);
+const west_halo_exchange_ti: local_task_id = @get_local_task_id(11);
+const north_halo_exchange_ti: local_task_id = @get_local_task_id(12);
+const south_halo_exchange_ti: local_task_id = @get_local_task_id(13);
+
+const init_grid_ti: local_task_id = @get_local_task_id(14);
+
+
+
+const sys_mod = @import_module("<memcpy/memcpy>", memcpy_params);
+const layout_module = @import_module("<layout>");
+const simprint = @import_module("<simprint>");
+
+
+var grid: [M+2, N+2]f32;
+var grid_ptr: [*]f32 = &grid;
+
+task init_grid() void {
+    // PE coords
+    const pe_x = layout_module.get_x_coord();
+    const pe_y = layout_module.get_y_coord();
+
+    // Calculate a unique identifier for this PE based on its coordinates.
+    // Assuming PEs are laid out row by row, starting from (0,0).
+    const num_pes_x = 4;
+    var pe_id: u16 = (pe_y * num_pes_x) + pe_x + 1; // +1 to start values from 1
+
+    simprint.fmt_with_coords("-- pe_id -- {d}", .{ pe_id});
+
+    // Fill the entire grid with the calculated pe_id
+    for (@range(u16, 1, M + 1, 1)) |row| {
+        for (@range(u16, 1, N + 1, 1)) |col| {
+            simprint.fmt_with_coords("-- grid[{d}, {d}]:-- {d}", .{row, col, pe_id});
+            grid[row, col] = @as(f32, pe_id);
+        }
+    }
+    
+    @unblock(east_halo_exchange_ti);
+    @activate(east_halo_exchange_ti);
+}
+
+fn send_right_col_to_west_halo_of_east_neighbour() void {
+    const pe_x = layout_module.get_x_coord();
+    const pe_y = layout_module.get_y_coord();
+    
+    simprint.print_string("in send_right_col_to_west_halo_of_east_neighbour\n");
+    var right_col_dsd = @get_dsd(mem1d_dsd, .{
+        .tensor_access = |i|{M+2} -> grid[i, N]
+    });
+    simprint.fmt_with_coords("PE({d},{d}) --- Sending right_col_east", .{pe_x, pe_y});
+    var fabout_right_dsd = @get_dsd(fabout_dsd, .{ .extent = M+2, .fabric_color = send_east_color, .output_queue = send_east_color_oq });
+    @fmovs(fabout_right_dsd, right_col_dsd, .{.async = true, .ut_id = ut0});
+}
+
+fn recv_right_col_from_west_neighbour_in_west_halo() void {
+
+    const pe_x = layout_module.get_x_coord();
+    const pe_y = layout_module.get_y_coord();
+    simprint.print_string("in recv_right_col_from_west_neighbour_in_west_halo\n");
+
+    simprint.fmt_with_coords("PE({d}, {d}) --- Receiving right column from west", .{pe_x, pe_y});
+    var in_dsd = @get_dsd(fabin_dsd, .{ .extent = M+2, .fabric_color = recv_west_color, .input_queue = recv_west_color_iq });
+    
+    var dest_dsd = @get_dsd(mem1d_dsd, .{
+        .tensor_access = |i|{M+2} -> grid[i,0]
+    });
+    @fmovs(dest_dsd, in_dsd, .{.async = true, .ut_id = ut1});
+}
+
+fn send_left_col_to_east_halo_of_west_neighbour() void {
+    const pe_x = layout_module.get_x_coord();
+    const pe_y = layout_module.get_y_coord();
+    
+    simprint.print_string("in send_left_col_to_east_halo_of_west_neighbour\n");
+    var left_col_dsd = @get_dsd(mem1d_dsd, .{
+        .tensor_access = |i|{M+2} -> grid[i, 1]
+    });
+    simprint.fmt_with_coords("PE({d},{d}) --- Sending left_col_west", .{pe_x, pe_y});
+    var fabout_left_dsd = @get_dsd(fabout_dsd, .{ .extent = M+2, .fabric_color = send_west_color, .output_queue = send_west_color_oq });
+    @fmovs(fabout_left_dsd, left_col_dsd, .{.async = true, .ut_id = ut2});
+}
+
+fn recv_left_col_from_east_neighbour_in_east_halo() void {
+    const pe_x = layout_module.get_x_coord();
+    const pe_y = layout_module.get_y_coord();
+    simprint.print_string("in recv_left_col_from_east_neighbour_in_east_halo\n");
+
+    simprint.fmt_with_coords("PE({d}, {d}) --- Receiving left column from east", .{pe_x, pe_y});
+    var in_dsd = @get_dsd(fabin_dsd, .{ .extent = M+2, .fabric_color = recv_east_color, .input_queue = recv_east_color_iq });
+
+    var dest_dsd = @get_dsd(mem1d_dsd, .{
+        .tensor_access = |i|{M+2} -> grid[i, N+1]
+    });
+    @fmovs(dest_dsd, in_dsd, .{.async = true, .activate = exit_task_id, .ut_id = ut3 });
+}
+
+fn send_top_row_to_south_halo_of_north_neighbour() void {
+    const pe_x = layout_module.get_x_coord();
+    const pe_y = layout_module.get_y_coord();
+    simprint.print_string("in send_top_row_to_south_halo_of_north_neighbour");
+    var top_row = @get_dsd(mem1d_dsd, .{
+        .tensor_access = |i|{N+2} -> grid[1, i]
+    });
+    
+    simprint.fmt_with_coords("PE({d},{d}) --- Sending top_row_north", .{pe_x, pe_y});
+    var fabout_top_dsd = @get_dsd(fabout_dsd, .{ .extent = N+2, .fabric_color = send_north_color, .output_queue = send_north_color_oq });
+    @fmovs(fabout_top_dsd, top_row, .{.async = true, .ut_id = ut4});
+}
+
+fn recv_top_row_from_south_neighbour_in_south_halo() void {
+    const pe_x = layout_module.get_x_coord();
+    const pe_y = layout_module.get_y_coord();
+    simprint.print_string("in recv_top_row_from_south_neighbour_in_south_halo");
+    simprint.fmt_with_coords("PE({d}, {d}) --- Receiving top column from south", .{pe_x, pe_y});
+    var in_dsd = @get_dsd(fabin_dsd, .{ .extent = N+2, .fabric_color = recv_south_color, .input_queue = recv_south_color_iq });
+    
+    var dest_dsd = @get_dsd(mem1d_dsd, .{
+        .tensor_access = |i|{N+2} -> grid[N+1, i]
+    });
+    @fmovs(dest_dsd, in_dsd, .{.async = true, .ut_id = ut5 });
+}
+
+fn send_bottom_row_to_north_halo_of_south_neighbour() void {
+    const pe_x = layout_module.get_x_coord();
+    const pe_y = layout_module.get_y_coord();
+    simprint.print_string("in send_bottom_row_to_north_halo_of_south_neighbour");
+    var bottom_col_dsd = @get_dsd(mem1d_dsd, .{
+    .tensor_access = |i|{N+2} -> grid[M, i]
+    });
+    
+    simprint.fmt_with_coords("PE({d},{d}) --- Sending bottom_col_south", .{pe_x, pe_y});
+    var fabout_bottom_dsd = @get_dsd(fabout_dsd, .{ .extent = N+2, .fabric_color = send_south_color, .output_queue = send_south_color_oq });
+    @fmovs(fabout_bottom_dsd, bottom_col_dsd, .{.async = true, .ut_id = ut6 });
+}
+
+fn recv_bottom_row_from_north_neighbour_north_halo() void {
+    const pe_x = layout_module.get_x_coord();
+    const pe_y = layout_module.get_y_coord();
+    simprint.print_string("in recv_bottom_row_from_north_neighbour_north_halo");
+    simprint.fmt_with_coords("PE({d}, {d}) --- Receiving bottom column from north", .{pe_x, pe_y});
+    
+    var in_dsd = @get_dsd(fabin_dsd, .{ .extent = N+2, .fabric_color = recv_north_color, .input_queue = recv_north_color_iq });
+    var dest_dsd = @get_dsd(mem1d_dsd, .{
+        .tensor_access = |i|{N+2} -> grid[0,i]
+    });
+    @fmovs(dest_dsd, in_dsd, .{.async = true, .ut_id = ut7});
+}
+
+task east_halo_exchange() void {
+    send_right_col_to_west_halo_of_east_neighbour();
+    recv_right_col_from_west_neighbour_in_west_halo();
+    @unblock(south_halo_exchange_ti);
+    @activate(south_halo_exchange_ti);
+}
+
+task south_halo_exchange() void {
+    send_bottom_row_to_north_halo_of_south_neighbour();
+    recv_bottom_row_from_north_neighbour_north_halo();
+
+    @unblock(west_halo_exchange_ti);
+    @activate(west_halo_exchange_ti);
+}
+
+task west_halo_exchange() void {
+    send_left_col_to_east_halo_of_west_neighbour();
+    recv_left_col_from_east_neighbour_in_east_halo();
+    @unblock(north_halo_exchange_ti);
+    @activate(north_halo_exchange_ti);
+}
+
+task north_halo_exchange() void {
+    send_top_row_to_south_halo_of_north_neighbour();
+    recv_top_row_from_south_neighbour_in_south_halo();
+
+
+    @unblock(exit_task_id);
+    @activate(exit_task_id);
+}
+
+fn compute() void {
+    simprint.print_string("++++inside compute++++\n");
+    @activate(init_grid_ti);
+}
+
+task exit_task() void {
+    simprint.print_string("inside exit_task\n");
+    sys_mod.unblock_cmd_stream();
+}
+
+comptime {
+    @initialize_queue(send_east_color_oq, .{ .color = send_east_color });
+    @initialize_queue(recv_west_color_iq, .{ .color = recv_west_color });
+    @initialize_queue(send_west_color_oq, .{ .color = send_west_color });
+    @initialize_queue(recv_east_color_iq, .{ .color = recv_east_color });
+    
+    @initialize_queue(send_north_color_oq, .{ .color = send_north_color });
+    @initialize_queue(recv_south_color_iq, .{ .color = recv_south_color });
+    @initialize_queue(send_south_color_oq, .{ .color = send_south_color });
+    @initialize_queue(recv_north_color_iq, .{ .color = recv_north_color });
+    
+    
+    @bind_local_task(exit_task, exit_task_id);
+    
+    @bind_local_task(east_halo_exchange, east_halo_exchange_ti);
+    @bind_local_task(west_halo_exchange, west_halo_exchange_ti);
+    @bind_local_task(north_halo_exchange, north_halo_exchange_ti);
+    @bind_local_task(south_halo_exchange, south_halo_exchange_ti);
+
+    @bind_local_task(init_grid, init_grid_ti);
+    
+    
+    @block(south_halo_exchange_ti);
+    @block(west_halo_exchange_ti);
+    @block(north_halo_exchange_ti);
+    @block(exit_task_id);
+    
+    @export_symbol(compute);
+    
+    @export_symbol(grid_ptr, "grid");
+}

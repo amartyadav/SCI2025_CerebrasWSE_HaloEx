@@ -1,0 +1,259 @@
+// Matrix dimensions on each PE
+param M: i16;
+param N: i16;
+
+// colours
+const axc1: color = @get_color(0);
+const axc2: color = @get_color(1);
+
+const axc3: color = @get_color(2);
+const axc4: color = @get_color(3);
+
+const axc5: color = @get_color(4);
+const axc6: color = @get_color(5);
+
+const axc7: color = @get_color(6);
+const axc8: color = @get_color(7);
+
+
+const kernel_x_dim = 2;
+const kernel_y_dim = 2;
+
+// using 4 PE (2x2) rectangle
+const memcpy = @import_module("<memcpy/get_params>", .{
+    .width = 2,
+    .height = 2,
+});
+const simprint = @import_module("<simprint>");
+
+// Helper function to determine position type
+fn getPositionType(pe_x: u16, pe_y: u16) u8 {
+    const is_left = pe_x == 0;
+    const is_right = pe_x == kernel_x_dim - 1;
+    const is_top = pe_y == 0;
+    const is_bottom = pe_y == kernel_y_dim - 1;
+    
+    if (is_top and is_left) return 0;      // top-left corner
+    if (is_top and is_right) return 1;     // top-right corner  
+    if (is_bottom and is_left) return 2;   // bottom-left corner
+    if (is_bottom and is_right) return 3;  // bottom-right corner
+    if (is_top) return 4;                  // top edge
+    if (is_bottom) return 5;               // bottom edge
+    if (is_left and !is_top and !is_bottom) return 6;                 // left edge
+    if (is_right and !is_top and !is_bottom) return 7;                // right edge
+    return 8;                              // middle (interior)
+}
+
+layout {
+    // PE coords (column, row)
+    @set_rectangle(2, 2);
+    
+    const common_params = .{
+        .M = M,
+        .N = N
+    };
+    
+    const even_params = @concat_structs(common_params, .{
+        .send_east_color = axc2, 
+        .recv_west_color = axc1,
+        .send_west_color = axc4,
+        .recv_east_color = axc3,
+        .send_north_color = axc6,
+        .recv_south_color = axc5,
+        .send_south_color = axc8,
+        .recv_north_color = axc7,
+    });
+    
+    const odd_params = @concat_structs(common_params, .{
+        .send_east_color = axc1, 
+        .recv_west_color = axc2,
+        .send_west_color = axc3,
+        .recv_east_color = axc4,
+        .send_north_color = axc5,
+        .recv_south_color = axc6,
+        .send_south_color = axc7,
+        .recv_north_color = axc8,
+    });
+    
+    // Set tile codes
+    for(@range(u16, 2)) |pe_x| {
+        for(@range(u16, 2)) |pe_y| {
+            const params = if ((pe_x+pe_y) % 2 == 0) even_params else odd_params;
+            @set_tile_code(pe_x, pe_y, "pe.csl", @concat_structs(.{
+                .memcpy_params = memcpy.get_params(pe_x)}, params));
+        }
+    }
+    
+    // Route configurations
+    const rx_r_tx_e = .{ .rx = .{RAMP}, .tx = .{EAST} };
+    const rx_w_tx_r = .{ .rx = .{WEST}, .tx = .{RAMP} };
+    const rx_r_tx_w = .{ .rx = .{RAMP}, .tx = .{WEST} };
+    const rx_e_tx_r = .{ .rx = .{EAST}, .tx = .{RAMP} };
+    const rx_r_tx_n = .{ .rx = .{RAMP}, .tx = .{NORTH} };
+    const rx_s_tx_r = .{ .rx = .{SOUTH}, .tx = .{RAMP} };
+    const rx_r_tx_s = .{ .rx = .{RAMP}, .tx = .{SOUTH} };
+    const rx_n_tx_r = .{ .rx = .{NORTH}, .tx = .{RAMP} };
+    
+    
+    
+    // Set color configurations
+    for(@range(u16, 2)) |pe_x| {
+        for(@range(u16, 2)) |pe_y| {
+            const is_even = (pe_x+pe_y) % 2 == 0;
+            const pos_type = getPositionType(pe_x, pe_y);
+            
+            switch (pos_type) {
+                0 => { // top-left corner
+                    if (is_even) {
+                        @set_color_config(pe_x, pe_y, axc2, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, axc3, .{ .routes = rx_e_tx_r });
+                        @set_color_config(pe_x, pe_y, axc8, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, axc5, .{ .routes = rx_s_tx_r });
+                    } else {
+                        // Odd case for top-left was commented out in original
+                        // Add implementation if needed
+                    }
+                },
+                1 => { // top-right corner
+                    if (is_even) {
+                        @set_color_config(pe_x, pe_y, axc1, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, axc4, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, axc8, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, axc5, .{ .routes = rx_s_tx_r });
+                    } else {
+                        @set_color_config(pe_x, pe_y, axc2, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, axc3, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, axc7, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, axc6, .{ .routes = rx_s_tx_r });
+                    }
+                },
+                2 => { // bottom-left corner
+                    if (is_even) {
+                        @set_color_config(pe_x, pe_y, axc6, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, axc7, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, axc2, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, axc3, .{ .routes = rx_e_tx_r });
+                    } else {
+                        // Odd case for bottom-left was commented out in original
+                        // Add implementation if needed
+                        @set_color_config(pe_x, pe_y, axc5, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, axc8, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, axc1, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, axc4, .{ .routes = rx_e_tx_r });
+                    }
+                },
+                3 => { // bottom-right corner
+                    if (is_even) {
+                        @set_color_config(pe_x, pe_y, axc6, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, axc7, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, axc1, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, axc4, .{ .routes = rx_r_tx_w });
+                    } else {
+                        @set_color_config(pe_x, pe_y, axc5, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, axc8, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, axc2, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, axc3, .{ .routes = rx_r_tx_w });
+                    }
+                },
+                4 => { // top edge (middle)
+                    if (is_even) {
+                        @set_color_config(pe_x, pe_y, axc2, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, axc1, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, axc3, .{ .routes = rx_e_tx_r });
+                        @set_color_config(pe_x, pe_y, axc4, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, axc8, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, axc5, .{ .routes = rx_s_tx_r });
+                    } else {
+                        @set_color_config(pe_x, pe_y, axc1, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, axc2, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, axc4, .{ .routes = rx_e_tx_r });
+                        @set_color_config(pe_x, pe_y, axc3, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, axc7, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, axc6, .{ .routes = rx_s_tx_r });
+                    }
+                },
+                5 => { // bottom edge (middle)
+                    if (is_even) {
+                        @set_color_config(pe_x, pe_y, axc6, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, axc7, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, axc2, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, axc1, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, axc4, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, axc3, .{ .routes = rx_e_tx_r });
+                    } else {
+                        @set_color_config(pe_x, pe_y, axc5, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, axc8, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, axc1, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, axc2, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, axc3, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, axc4, .{ .routes = rx_e_tx_r });
+                    }
+                },
+                6 => { // left edge (middle)
+                    if(is_even) {
+                        @set_color_config(pe_x, pe_y, axc2, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, axc3, .{ .routes = rx_e_tx_r });
+                        @set_color_config(pe_x, pe_y, axc6, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, axc7, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, axc8, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, axc5, .{ .routes = rx_s_tx_r });                        
+                    }  else {
+                        @set_color_config(pe_x, pe_y, axc1, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, axc4, .{ .routes = rx_e_tx_r });
+                        @set_color_config(pe_x, pe_y, axc5, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, axc8, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, axc7, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, axc6, .{ .routes = rx_s_tx_r });
+                    }
+                },
+                7 => { // right edge (middle)
+                    if(is_even) {
+                        @set_color_config(pe_x, pe_y, axc1, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, axc4, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, axc6, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, axc7, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, axc8, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, axc5, .{ .routes = rx_s_tx_r }); 
+                    } else {
+                        @set_color_config(pe_x, pe_y, axc2, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, axc3, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, axc5, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, axc8, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, axc7, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, axc6, .{ .routes = rx_s_tx_r });
+                    }
+                },
+                8 => { // middle (interior) - THE MISSING CASE
+                    if (is_even) {
+                        // For interior even PEs, enable all directional routing
+                        @set_color_config(pe_x, pe_y, axc2, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, axc1, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, axc4, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, axc3, .{ .routes = rx_e_tx_r });
+                        @set_color_config(pe_x, pe_y, axc6, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, axc5, .{ .routes = rx_s_tx_r });
+                        @set_color_config(pe_x, pe_y, axc8, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, axc7, .{ .routes = rx_n_tx_r });
+                    } else {
+                        // For interior odd PEs, enable all directional routing
+                        @set_color_config(pe_x, pe_y, axc1, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, axc2, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, axc3, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, axc4, .{ .routes = rx_e_tx_r });
+                        @set_color_config(pe_x, pe_y, axc5, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, axc6, .{ .routes = rx_s_tx_r });
+                        @set_color_config(pe_x, pe_y, axc7, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, axc8, .{ .routes = rx_n_tx_r });
+                    }
+                },
+                else => {
+                
+            }
+            }
+        }
+    }
+    
+    
+    @export_name("grid", [*]f32, true);
+    @export_name("compute", fn() void);
+}
