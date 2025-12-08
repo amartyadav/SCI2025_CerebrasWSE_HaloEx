@@ -1,0 +1,595 @@
+@0 GITREV=9382352f0d2a12a202865fc1981160b16bd0666f, GITCLEAN=1
+@0 Create from elfs
+@0 dimX=20, dimY=20
+@0 Reading ELF file out/generated/default.elf
+@0 Reading ELF file out/generated/coord.elf
+@0 Reading ELF file out/bin/out_1_0.elf
+@0 Reading ELF file out/bin/out_3_0.elf
+@0 Reading ELF file out/bin/out_0_0.elf
+@0 Reading ELF file out/bin/out_2_0.elf
+@0 Reading ELF file out/east/bin/out_1_0.elf
+@0 Reading ELF file out/east/bin/out_3_0.elf
+@0 Reading ELF file out/east/bin/out_0_0.elf
+@0 Reading ELF file out/east/bin/out_2_0.elf
+@0 Reading ELF file out/west/bin/out_1_0.elf
+@0 Reading ELF file out/west/bin/out_3_0.elf
+@0 Reading ELF file out/west/bin/out_0_0.elf
+@0 Reading ELF file out/west/bin/out_5_0.elf
+@0 Reading ELF file out/west/bin/out_2_0.elf
+@0 Reading ELF file out/west/bin/out_4_0.elf
+@0 Reading ELF file out/generated/MEMCPY_XY_ROUTES.elf
+@0 Invocation key is: simE485CEE5B9E5F1E3D153329ED9AA5513
+@0 Plan key is: plan928D59050BEB3C4BDCE16E342E021AF8
+@0 SimTraceCtf, flags:  wavelets=0 landing=1 inst=1 switch_positions=0 stalls=1
+@0 P0.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.1 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P1.1 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P2.1 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P3.1 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P4.1 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P5.1 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P6.1 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P7.1 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P8.1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.1 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P0.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P1.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P2.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P3.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P4.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P5.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P6.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P7.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P8.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P9.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P10.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P11.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P12.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P13.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P14.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P15.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P16.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P17.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P18.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P19.2 (hwtile) tile trace flag: inst_trace,landing,stalls
+@0 P0.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P0.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P1.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P2.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P3.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P4.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P5.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P6.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P7.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P8.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P9.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P10.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P11.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P12.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P13.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P14.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P15.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P16.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P17.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P18.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 P19.19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW1 (iotile) tile trace flag: inst_trace,landing,stalls
+@0 LW2 (iotile) tile trace flag: inst_trace,landing,stalls
+@0 LW3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LW19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE1 (iotile) tile trace flag: inst_trace,landing,stalls
+@0 LE2 (iotile) tile trace flag: inst_trace,landing,stalls
+@0 LE3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LE19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN2 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LN19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS0 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS1 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS2 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS3 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS4 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS5 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS6 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS7 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS8 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS9 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS10 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS11 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS12 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS13 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS14 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS15 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS16 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS17 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS18 (nul) tile trace flag: inst_trace,landing,stalls
+@0 LS19 (nul) tile trace flag: inst_trace,landing,stalls
+@0 Architecture is: SDR
+@0 Simtile is: hwtile
+@0 Sim stats: config-time=0.35, nodes=1, threads=5
+@0 Sim stats: tiles=480, simulated_tiles=33, hwtile=29, iotile=4, nultile=447
+@386 ++++inside compute++++
+@386 ++++inside compute++++
+@388 ++++inside compute++++
+@388 ++++inside compute++++
+@467 PE(0,0): -- pe_id -- 1
+@467 PE(0,1): -- pe_id -- 5
+@469 PE(1,0): -- pe_id -- 2
+@469 PE(1,1): -- pe_id -- 6
+@590 PE(0,0): -- grid[1, 1]:-- 1
+@590 PE(0,1): -- grid[1, 1]:-- 5
+@592 PE(1,0): -- grid[1, 1]:-- 2
+@592 PE(1,1): -- grid[1, 1]:-- 6
+@666 PE(0,0): -- grid[1, 2]:-- 1
+@666 PE(0,1): -- grid[1, 2]:-- 5
+@668 PE(1,0): -- grid[1, 2]:-- 2
+@668 PE(1,1): -- grid[1, 2]:-- 6
+@773 PE(0,0): -- grid[2, 1]:-- 1
+@773 PE(0,1): -- grid[2, 1]:-- 5
+@775 PE(1,0): -- grid[2, 1]:-- 2
+@775 PE(1,1): -- grid[2, 1]:-- 6
+@849 PE(0,0): -- grid[2, 2]:-- 1
+@849 PE(0,1): -- grid[2, 2]:-- 5
+@851 PE(1,0): -- grid[2, 2]:-- 2
+@851 PE(1,1): -- grid[2, 2]:-- 6
+@878 in send_right_col_to_west_halo_of_east_neighbour
+@878 in send_right_col_to_west_halo_of_east_neighbour
+@880 in send_right_col_to_west_halo_of_east_neighbour
+@880 in send_right_col_to_west_halo_of_east_neighbour
+@953 PE(0,0): PE(0,0) --- Sending right_col_east
+@953 PE(0,1): PE(0,1) --- Sending right_col_east
+@955 PE(1,0): PE(1,0) --- Sending right_col_east
+@955 PE(1,1): PE(1,1) --- Sending right_col_east
+@987 in recv_right_col_from_west_neighbour_in_west_halo
+@987 in recv_right_col_from_west_neighbour_in_west_halo
+@989 in recv_right_col_from_west_neighbour_in_west_halo
+@989 in recv_right_col_from_west_neighbour_in_west_halo
+@1057 PE(0,0): PE(0, 0) --- Receiving right column from west
+@1057 PE(0,1): PE(0, 1) --- Receiving right column from west
+@1059 PE(1,0): PE(1, 0) --- Receiving right column from west
+@1059 PE(1,1): PE(1, 1) --- Receiving right column from west
+@1174 in send_bottom_row_to_north_halo_of_south_neighbourPE(0,0): PE(0,0) --- Sending bottom_col_south
+@1174 in send_bottom_row_to_north_halo_of_south_neighbourPE(0,1): PE(0,1) --- Sending bottom_col_south
+@1179 in send_bottom_row_to_north_halo_of_south_neighbourPE(1,0): PE(1,0) --- Sending bottom_col_south
+@1179 in send_bottom_row_to_north_halo_of_south_neighbourPE(1,1): PE(1,1) --- Sending bottom_col_south
+@1278 in recv_bottom_row_from_north_neighbour_north_haloPE(0,0): PE(0, 0) --- Receiving bottom column from north
+@1278 in recv_bottom_row_from_north_neighbour_north_haloPE(0,1): PE(0, 1) --- Receiving bottom column from north
+@1283 in recv_bottom_row_from_north_neighbour_north_haloPE(1,0): PE(1, 0) --- Receiving bottom column from north
+@1283 in recv_bottom_row_from_north_neighbour_north_haloPE(1,1): PE(1, 1) --- Receiving bottom column from north
+@1320 in send_left_col_to_east_halo_of_west_neighbour
+@1323 in send_left_col_to_east_halo_of_west_neighbour
+@1325 in send_left_col_to_east_halo_of_west_neighbour
+@1328 in send_left_col_to_east_halo_of_west_neighbour
+@1395 PE(0,0): PE(0,0) --- Sending left_col_west
+@1398 PE(0,1): PE(0,1) --- Sending left_col_west
+@1400 PE(1,0): PE(1,0) --- Sending left_col_west
+@1403 PE(1,1): PE(1,1) --- Sending left_col_west
+@1429 in recv_left_col_from_east_neighbour_in_east_halo
+@1432 in recv_left_col_from_east_neighbour_in_east_halo
+@1434 in recv_left_col_from_east_neighbour_in_east_halo
+@1437 in recv_left_col_from_east_neighbour_in_east_halo
+@1499 PE(0,0): PE(0, 0) --- Receiving left column from east
+@1502 PE(0,1): PE(0, 1) --- Receiving left column from east
+@1504 PE(1,0): PE(1, 0) --- Receiving left column from east
+@1507 PE(1,1): PE(1, 1) --- Receiving left column from east
+@1619 in send_top_row_to_south_halo_of_north_neighbourPE(0,0): PE(0,0) --- Sending top_row_north
+@1621 in send_top_row_to_south_halo_of_north_neighbourPE(1,0): PE(1,0) --- Sending top_row_north
+@1622 in send_top_row_to_south_halo_of_north_neighbourPE(0,1): PE(0,1) --- Sending top_row_north
+@1624 in send_top_row_to_south_halo_of_north_neighbourPE(1,1): PE(1,1) --- Sending top_row_north
+@1723 in recv_top_row_from_south_neighbour_in_south_haloPE(0,0): PE(0, 0) --- Receiving top column from south
+@1725 in recv_top_row_from_south_neighbour_in_south_haloPE(1,0): PE(1, 0) --- Receiving top column from south
+@1726 in recv_top_row_from_south_neighbour_in_south_haloPE(0,1): PE(0, 1) --- Receiving top column from south
+@1728 in recv_top_row_from_south_neighbour_in_south_haloPE(1,1): PE(1, 1) --- Receiving top column from south
+@1759 inside exit_task
+@1759 inside exit_task
+@1762 inside exit_task
+@1762 inside exit_task
+@1767 inside exit_task
+@1767 inside exit_task
+@11596 Request to asynchronously stop simulation
+@11596 Request to asynchronously stop simulation
+@11598 Stopping due to user request
+@11598 3018 cycles since an instruction was executed, 3054 cycles since a wavelet landed
+@11598 Simulation used 6.76 seconds, init-time=0.48, total-time=7.23, cycles=11598, cyc/sec=1716.65, tile-cyc/sec=56649.49, tile-cyc/sec-thread=11329.90
+@11598 CTF Stats: num_stalls_       =            0
+@11598 CTF Stats: num_wavelets      =         2417
+@11598 CTF Stats: num_inst_dispatch =        18816
+@11598 CTF Stats: num_inst_pipe     =        58224
+@11598 CTF Stats: num_switch_pos    =            0

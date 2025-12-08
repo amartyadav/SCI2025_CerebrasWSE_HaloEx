@@ -1,0 +1,252 @@
+// Matrix dimensions on each PE
+param M: i16;
+param N: i16;
+
+// Defining the colors
+// We need 8 colors since we will do at most 8 send/receives (in 8 directions) from the interior PEs.
+const c1: color = @get_color(0);
+const c2: color = @get_color(1);
+
+const c3: color = @get_color(2);
+const c4: color = @get_color(3);
+
+const c5: color = @get_color(4);
+const c6: color = @get_color(5);
+
+const c7: color = @get_color(6);
+const c8: color = @get_color(7);
+
+
+const kernel_x_dim = 2;
+const kernel_y_dim = 2;
+
+// using 4 PE (2x2) rectangle
+const memcpy = @import_module("<memcpy/get_params>", .{
+    .width = 2,
+    .height = 2,
+});
+
+// Helper function to determine position type
+fn getPositionType(pe_x: u16, pe_y: u16) u8 {
+    const is_left = pe_x == 0;
+    const is_right = pe_x == kernel_x_dim - 1;
+    const is_top = pe_y == 0;
+    const is_bottom = pe_y == kernel_y_dim - 1;
+    
+    if (is_top and is_left) return 0;      // top-left corner
+    if (is_top and is_right) return 1;     // top-right corner  
+    if (is_bottom and is_left) return 2;   // bottom-left corner
+    if (is_bottom and is_right) return 3;  // bottom-right corner
+    if (is_top) return 4;                  // top edge
+    if (is_bottom) return 5;               // bottom edge
+    if (is_left and !is_top and !is_bottom) return 6;                 // left edge
+    if (is_right and !is_top and !is_bottom) return 7;                // right edge
+    return 8;                              // middle (interior)
+}
+
+layout {
+    // PE coords (column, row)
+    @set_rectangle(2, 2);
+    
+    const common_params = .{
+        .M = M,
+        .N = N
+    };
+    
+    // When a PE sends a wavelet to north neighbour ⬆, the north neighbour receives that wavelet from its south neighbour ⬆. This is how the (send_north, recv_sourth) pair exists
+    // This is true for all four neighbours.
+    // TODO: Look up the pairs in the struct below for even PEs, carefully thinking about the colors assigned to each direction. Use it to fill in the odd PEs struct
+    const even_params = @concat_structs(common_params, .{
+        .send_east_color = c2, 
+        .recv_west_color = c1,
+        .send_west_color = c4,
+        .recv_east_color = c3,
+        .send_north_color = c6,
+        .recv_south_color = c5,
+        .send_south_color = c8,
+        .recv_north_color = c7,
+    });
+    
+    // TODO: Add the remaining colors (remember to flip the colors assigned for each send/recv, should be the opposite of even_params)
+    // For example, in even_params -> .send_west_color = c2, and recv_west_color is c1. 
+    // Since we cannot send and receive on the same color for that direction in the consecutive PE, we need to use different colors for those routes
+    // so we send_east_color = c1 (opposite of what send_east_color is for the even PEs), recv_west_color = c2
+    const odd_params = @concat_structs(common_params, .{
+        .send_east_color = c1, 
+        .recv_west_color = c2,
+        // TODO: Add your code below
+    });
+    
+    // Setting the PE code to be run on each PE. In this case, all the PEs involved run the same halo ex. code written in pe.csl, we use a loop to assign that to all the PEs
+    // We also send the params to each of the PEs based on whether they are odd or even. orr_params go to odd PEs and so on.
+    for(@range(u16, 2)) |pe_x| {
+        for(@range(u16, 2)) |pe_y| {
+            const params = if ((pe_x+pe_y) % 2 == 0) even_params else odd_params;
+            @set_tile_code(pe_x, pe_y, "pe.csl", @concat_structs(.{
+                .memcpy_params = memcpy.get_params(pe_x)}, params));
+        }
+    }
+    
+    // Route configurations
+    // Think about the directions in which communication (or exchange) is taking place for this case of halo exchange.
+    // RAMP: Connection of a PE's own CE to the router. A PE's own data is received/sent from/to the ramp by the router.
+    // Routes are defined from the perspective of the router, not the PE.
+    // To send to east, for example, from the perspective of the router: Receive from RAMP, Transmit to EAST.
+    // To receive from west, from the perspective of the router: Receive from WEST, Transmit to RAMP. 
+    // rx = receive, tx = transmit
+    // TODO: Add the remaining routes here. 
+    const rx_r_tx_e = .{ .rx = .{RAMP}, .tx = .{EAST} };
+    const rx_w_tx_r = .{ .rx = .{WEST}, .tx = .{RAMP} };
+    
+    
+    
+    // Color configurations
+    // As discussed, we are implementing a non-periodic boundary halo exchange.
+    // Not all PEs communicate with all of their 4 neighbours. 
+    // Take a look at the Slides again, and think about the directions (routes) that the communication will take place.
+    // Match the color set-up done above for each send/receive direction for odd and even PEs, and match it to the routes defined above.
+    // TODO: Impement the ODD cases (the else blocks) wherever missing. Use the odd_params struct to match the route+direction with the color
+    for(@range(u16, 2)) |pe_x| {
+        for(@range(u16, 2)) |pe_y| {
+            const is_even = (pe_x+pe_y) % 2 == 0; // checking if the PE coordinate is even or odd
+            const pos_type = getPositionType(pe_x, pe_y);
+            
+            switch (pos_type) {
+                0 => { // Top-Left Corner
+                    if (is_even) {
+                        @set_color_config(pe_x, pe_y, c2, .{ .routes = rx_r_tx_e }); // Receive RAMP Trans. EAST
+                        @set_color_config(pe_x, pe_y, c3, .{ .routes = rx_e_tx_r }); // Receive EAST Trans. RAMP
+                        @set_color_config(pe_x, pe_y, c8, .{ .routes = rx_r_tx_s }); // Receive RAMP Trans. SOUTH
+                        @set_color_config(pe_x, pe_y, c5, .{ .routes = rx_s_tx_r }); // Receive SOUTH Trans. EAST
+                    } else {
+                        // Top left (0,0) can never be odd, so skipping the else block
+                    }
+                },
+                1 => { // Top-Right Corner
+                    if (is_even) {
+                        @set_color_config(pe_x, pe_y, c1, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, c4, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, c8, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, c5, .{ .routes = rx_s_tx_r });
+                    } else {
+                        @set_color_config(pe_x, pe_y, c2, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, c3, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, c7, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, c6, .{ .routes = rx_s_tx_r });
+                    }
+                },
+                2 => { // Bottom-Left Corner
+                    if (is_even) {
+                        @set_color_config(pe_x, pe_y, c6, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, c7, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, c2, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, c3, .{ .routes = rx_e_tx_r });
+                    } else {
+                        // TODO
+                    }
+                },
+                3 => { // Bottom-Right Corner
+                    if (is_even) {
+                        @set_color_config(pe_x, pe_y, c6, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, c7, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, c1, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, c4, .{ .routes = rx_r_tx_w });
+                    } else {
+                        @set_color_config(pe_x, pe_y, c5, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, c8, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, c2, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, c3, .{ .routes = rx_r_tx_w });
+                    }
+                },
+                4 => { // Top Edge (middle)
+                    if (is_even) {
+                        @set_color_config(pe_x, pe_y, c2, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, c1, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, c3, .{ .routes = rx_e_tx_r });
+                        @set_color_config(pe_x, pe_y, c4, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, c8, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, c5, .{ .routes = rx_s_tx_r });
+                    } else {
+                        // TODO
+                    }
+                },
+                5 => { // Bottom Edge (middle)
+                    if (is_even) {
+                        @set_color_config(pe_x, pe_y, c6, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, c7, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, c2, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, c1, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, c4, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, c3, .{ .routes = rx_e_tx_r });
+                    } else {
+                        @set_color_config(pe_x, pe_y, c5, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, c8, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, c1, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, c2, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, c3, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, c4, .{ .routes = rx_e_tx_r });
+                    }
+                },
+                6 => { // Left Edge (middle)
+                    if(is_even) {
+                        @set_color_config(pe_x, pe_y, c2, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, c3, .{ .routes = rx_e_tx_r });
+                        @set_color_config(pe_x, pe_y, c6, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, c7, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, c8, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, c5, .{ .routes = rx_s_tx_r });                        
+                    }  else {
+                        @set_color_config(pe_x, pe_y, c1, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, c4, .{ .routes = rx_e_tx_r });
+                        @set_color_config(pe_x, pe_y, c5, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, c8, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, c7, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, c6, .{ .routes = rx_s_tx_r });
+                    }
+                },
+                7 => { // Right Edge (middle)
+                    if(is_even) {
+                        @set_color_config(pe_x, pe_y, c1, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, c4, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, c6, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, c7, .{ .routes = rx_n_tx_r });
+                        @set_color_config(pe_x, pe_y, c8, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, c5, .{ .routes = rx_s_tx_r }); 
+                    } else {
+                        // TODO
+                    }
+                },
+                8 => { // Middle (interior)
+                    if (is_even) {
+                        // For interior even PEs, enable all directional routing
+                        @set_color_config(pe_x, pe_y, c2, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, c1, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, c4, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, c3, .{ .routes = rx_e_tx_r });
+                        @set_color_config(pe_x, pe_y, c6, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, c5, .{ .routes = rx_s_tx_r });
+                        @set_color_config(pe_x, pe_y, c8, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, c7, .{ .routes = rx_n_tx_r });
+                    } else {
+                        // For interior odd PEs, enable all directional routing
+                        @set_color_config(pe_x, pe_y, c1, .{ .routes = rx_r_tx_e });
+                        @set_color_config(pe_x, pe_y, c2, .{ .routes = rx_w_tx_r });
+                        @set_color_config(pe_x, pe_y, c3, .{ .routes = rx_r_tx_w });
+                        @set_color_config(pe_x, pe_y, c4, .{ .routes = rx_e_tx_r });
+                        @set_color_config(pe_x, pe_y, c5, .{ .routes = rx_r_tx_n });
+                        @set_color_config(pe_x, pe_y, c6, .{ .routes = rx_s_tx_r });
+                        @set_color_config(pe_x, pe_y, c7, .{ .routes = rx_r_tx_s });
+                        @set_color_config(pe_x, pe_y, c8, .{ .routes = rx_n_tx_r });
+                    }
+                },
+                else => {
+                // Default case: can leave empty as we have covered all possible cases here.
+            }
+            }
+        }
+    }
+    
+    // Exporting the 'grid' data and the 'compute' function to the host.
+    @export_name("grid", [*]f32, true);
+    @export_name("compute", fn() void);
+}

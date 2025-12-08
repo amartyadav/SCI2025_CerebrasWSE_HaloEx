@@ -1,0 +1,1 @@
+rm -rf wio* *.viz out/ generated/ out* *.json simfab_traces/ cs_* wsjob-*
