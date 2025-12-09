@@ -63,10 +63,15 @@ Continue with the below steps to install the SDK software.
 
 - Add the Cerebras SDK to your PATH.
 ```bash
-$ PATH_CMD='export PATH='$SDK_INSTALL_PATH':$PATH'
+$ PATH_CMD='export PATH=/home/scitest/Cerebras_SDK/cs_sdk:$PATH'
 $ eval $PATH_CMD
 $ echo $PATH_CMD >> ~/.bashrc
 $ source ~/.bashrc
+```
+
+- Might have to give permission to user to the directory
+```bash
+$ sudo chown -R $USER:$USER /home/scitest/SCI2025_CerebrasWSE_HaloEx-main
 ```
 
 - Verify the installation by calling the compiler.
