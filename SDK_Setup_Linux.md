@@ -21,7 +21,7 @@ To extract the SDK contents, follow the steps below.
 Note: `SDK_INSTALL_LOCATION` and `SDK_TAR_PATH` should be absolute paths.
 
 ```bash
-SDK_INSTALL_LOCATION=/my/install/location
+SDK_INSTALL_LOCATION=Cerebras_SDK
 SDK_INSTALL_PATH=$SDK_INSTALL_LOCATION/cs_sdk
 SDK_TAR_PATH=/path/to/Cerebras-SDK-1.4.0-{build id}.tar.gz
 ```
